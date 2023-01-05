@@ -1,11 +1,14 @@
-# Simple-Kubernetes-Client
+# simple-k8-Client
 
-A simple and easy to use Kubernetes Client for Nodejs , the available kubernetes
-client by kubernetes is very lengthy to pass a bunch of paramaters While this
-Kubernetes Client lacks alot of functionality but its very simple to use
+A simple and easy to use Kubernetes Client for Nodejs , the available k8 client
+by kubernetes is great but for simple use-cases it is very unintuitive as it expects 
+you to pass a bunch of empty params which could confuse a lot of users who are not looking 
+to learn these
 
-Also some function which are simple usage of the internal kuberntes function to
-expose something i feel is very usefull eg list of status for all pods
+simple-k8-client is a very lightweight client which makes the k8 functions much easier 
+to user for beginners and also serves as a mere example for more complex operation for 
+others
+
 
 Minimalist Kubernetes framework for [Node.js](http://nodejs.org).
 
