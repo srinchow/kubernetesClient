@@ -1,5 +1,7 @@
 import { coreApi } from "../client/client";
 
+interface ResourceUtilization { name: string, cpuUtilizationOverLimit?: number, memoryUtilizationOverLimit?: number }
+
 // get single pod
 export const getPod = async (podName: string, namespace = "default") => {
     const { body } = await coreApi.listNamespacedPod(namespace, "true", undefined, undefined, `metadata.name=${podName}`, ``);
@@ -45,16 +47,24 @@ export const getPodContainerImages = async (podName: string, namespace = "defaul
 export const getPodUsageOverLimitMetric = async (podName: string, namespace = "default") => {
     const podInfo = await getPod(podName, namespace);
     const containers = podInfo?.spec?.containers;
-    if (!containers) return;
+    if (!containers) return [];
 
-    const containerUtilizationOverThreshold = []
+    const containerUtilizationOverThreshold: ResourceUtilization[] = [];
 
     for (const container of containers) {
         if (!container.resources) continue
         const { requests, limits } = container.resources;
         const cpuUtilizationOverLimit = (Number(requests?.cpu) / Number((limits?.cpu))) * 100
         const memoryUtilizationOverLimit = (Number(requests?.memory) / Number(limits?.memory)) * 100
-        containerUtilizationOverThreshold.push({ name: container.name, cpuUtilizationOverLimit, memoryUtilizationOverLimit })
+        const utilization: ResourceUtilization = { name: container.name }
+        if (!Number.isNaN(cpuUtilizationOverLimit)) {
+            utilization.cpuUtilizationOverLimit = cpuUtilizationOverLimit
+        }
+        if (!Number.isNaN(memoryUtilizationOverLimit)) {
+            utilization.memoryUtilizationOverLimit = memoryUtilizationOverLimit
+        }
+        containerUtilizationOverThreshold.push(utilization)
+
     }
     return containerUtilizationOverThreshold
 }
