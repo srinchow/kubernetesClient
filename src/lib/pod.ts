@@ -1,3 +1,4 @@
+import { V1Pod } from "@kubernetes/client-node";
 import { coreApi } from "../client/client";
 
 // get single pod
@@ -40,4 +41,25 @@ export const getPodContainerImages = async (podName: string, namespace = "defaul
         }
     }
     return containerNameToImage;
+}
+
+export const getPodUsageOverLimitMetric = async (podName: string, namespace = "default") => {
+    const podInfo = await getPod(podName, namespace);
+    const containers = podInfo?.spec?.containers;
+    if (!containers) return;
+
+    const containerUtilizationOverThreshold = []
+
+    for (const container of containers) {
+        if (!container.resources) continue
+        const { requests, limits } = container.resources;
+        if (!requests || !limits) {
+            continue
+        }
+        const cpuUtilizationOverLimit = (Number(requests["cpu"]) / Number((limits["cpu"]))) * 100
+        const memoryUtilizationOverLimit = (Number(requests["memory"]) / Number(limits["memory"])) * 100
+
+        containerUtilizationOverThreshold.push({ name: container.name, cpuUtilizationOverLimit, memoryUtilizationOverLimit })
+    }
+    return containerUtilizationOverThreshold
 }
