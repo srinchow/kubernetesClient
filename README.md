@@ -1,4 +1,5 @@
-# simple-k8-Client
+# simple-k8-client
+[![Node.js CI](https://github.com/srinchow/kubernetesClient/actions/workflows/node.yml/badge.svg)](https://github.com/srinchow/kubernetesClient/actions/workflows/node.yml). 
 
 A simple and easy to use Kubernetes Client for Nodejs , the available k8 client
 by kubernetes is great but for simple/common use-cases it is very unintuitive as
