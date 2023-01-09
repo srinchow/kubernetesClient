@@ -5,7 +5,7 @@ import { IncomingMessage } from 'http';
 import { coreApi } from "../src/client/client";
 import { Socket } from 'net';
 import data from "./testdata/podResponse.json"
-import { getPod, getPodUsageOverLimitMetric } from "../src/lib/pod"
+import { getPod, getPodStatus, getPodUsageOverLimitMetric } from "../src/lib/pod"
 import { V1Pod, V1PodList } from '@kubernetes/client-node';
 
 const podListResponse: V1PodList = {
@@ -59,6 +59,19 @@ describe("Pod Test", () => {
             const result1 = await getPod("gg");
             expect(result1).toBeUndefined();
         })
+
+        test("Get Pod Status", async () => {
+            coreApi.listNamespacedPod = jest.fn(MockedListNamespacedPod);
+            const result = await getPodStatus("recorder-watcher");
+            expect(result).toBe("Running");
+        })
+
+        test("Get Pod Status Empty", async () => {
+            coreApi.listNamespacedPod = jest.fn(MockedListEmptyNamespacedPod);
+            const result = await getPodStatus("gg");
+            expect(result).toBeUndefined();
+        })
+
     })
 
 
