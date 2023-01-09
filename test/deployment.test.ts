@@ -51,7 +51,7 @@ async function MockedReadNamespaceDeployment(_name: string, _namespace: string, 
 
 describe("Deployment Tests", () => {
     describe("Get Deployment Info", () => {
-        test("Get Deployment Info full", async () => {
+        test("Get Deployment Info Full", async () => {
             appApi.listNamespacedDeployment = jest.fn(MockedlistNamespacedDeploymentFull);
             const result = await getDeploymentsInfo("api-server");
             expect(result).not.toBeUndefined();
