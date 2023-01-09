@@ -5,7 +5,7 @@ import { IncomingMessage } from 'http';
 import { coreApi } from "../src/client/client";
 import { Socket } from 'net';
 import data from "./testdata/podResponse.json"
-import { getPod, getPodContainerImages } from "../src/lib/pod"
+import { getPod, getPodUsageOverLimitMetric } from "../src/lib/pod"
 import { V1Pod, V1PodList } from '@kubernetes/client-node';
 
 const podListResponse: V1PodList = {
@@ -51,12 +51,17 @@ describe("Pod Test", () => {
         expect(result?.metadata?.name).toEqual("recorder-watcher-88cd749884-jxc5q");
         expect(result?.status?.phase).toEqual("Running");
         expect(result?.spec?.containers && result?.spec?.containers[0].image).toEqual("test/recorder-watcher:acf3e8cbe");
+        coreApi.listNamespacedPod = jest.fn(MockedListEmptyNamespacedPod);
+        const result1 = await getPod("gg");
+        expect(result1).toBeUndefined();
 
     })
 
-    test("Get Pod Empty", async () => {
-        coreApi.listNamespacedPod = jest.fn(MockedListEmptyNamespacedPod);
-        const result = await getPod("gg");
-        expect(result).toBeUndefined();
+    test("Get Pod Utilization Metric", async () => {
+        coreApi.listNamespacedPod = jest.fn(MockedListNamespacedPod)
+        const result = await getPodUsageOverLimitMetric("recorder-watcher")
+        expect(result.length).toEqual(1)
+        expect(result[0].cpuUtilizationOverLimit).toEqual(40)
+        expect(result[0].memoryUtilizationOverLimit).toEqual(30)
     })
 })
