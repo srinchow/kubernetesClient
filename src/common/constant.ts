@@ -35,3 +35,29 @@ export const enum PodFailedStatus {
     FAILED = "Failed",
     UNKNOWN = "Unknown"
 }
+
+
+
+export const cpuResourceUnitConversion = new Map<string, number>([["m", 1000]]);
+
+const memoryResourceUnitConversionInternal = () => {
+    const decimalUnits: string[] = ['k', 'M', 'G', 'T', 'P', 'E'];
+    const base2Units: string[] = ['Ki', 'Mi', 'Gi', 'Ti', 'Pi', 'Ei'];
+
+    const decimalBase = 1000;
+    const base2 = 1024;
+
+    const unitConversion: Map<string, number> = new Map<string, number>();
+
+    decimalUnits.forEach((val, index) => {
+        unitConversion.set(val, Math.pow(decimalBase, index + 1));
+    })
+
+    base2Units.forEach((val, index) => {
+        unitConversion.set(val, Math.pow(base2, index + 1));
+    })
+
+    return unitConversion;
+}
+
+export const memoryResourceUnitConversion = memoryResourceUnitConversionInternal();
