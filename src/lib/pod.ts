@@ -1,6 +1,6 @@
 import { coreApi } from "../client/client";
 
-interface ResourceUtilization { name: string, cpuUtilizationOverLimit?: number, memoryUtilizationOverLimit?: number }
+type ResourceUtilization = { name: string, cpuUtilizationOverLimit?: number, memoryUtilizationOverLimit?: number }
 
 // get single pod
 export const getPod = async (podName: string, namespace = "default") => {
