@@ -52,12 +52,8 @@ export const getPodUsageOverLimitMetric = async (podName: string, namespace = "d
     for (const container of containers) {
         if (!container.resources) continue
         const { requests, limits } = container.resources;
-        if (!requests || !limits) {
-            continue
-        }
-        const cpuUtilizationOverLimit = (Number(requests["cpu"]) / Number((limits["cpu"]))) * 100
-        const memoryUtilizationOverLimit = (Number(requests["memory"]) / Number(limits["memory"])) * 100
-
+        const cpuUtilizationOverLimit = (Number(requests?.cpu) / Number((limits?.cpu))) * 100
+        const memoryUtilizationOverLimit = (Number(requests?.memory) / Number(limits?.memory)) * 100
         containerUtilizationOverThreshold.push({ name: container.name, cpuUtilizationOverLimit, memoryUtilizationOverLimit })
     }
     return containerUtilizationOverThreshold
