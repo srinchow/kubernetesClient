@@ -1,4 +1,3 @@
-import { V1Pod } from "@kubernetes/client-node";
 import { coreApi } from "../client/client";
 
 // get single pod
