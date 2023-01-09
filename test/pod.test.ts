@@ -5,7 +5,7 @@ import { IncomingMessage } from 'http';
 import { coreApi } from "../src/client/client";
 import { Socket } from 'net';
 import data from "./testdata/podResponse.json"
-import { getPod, getPodUsageOverLimitMetric } from "../src/lib/pod"
+import { getPod, getPodStatus, getPodUsageOverLimitMetric } from "../src/lib/pod"
 import { V1Pod, V1PodList } from '@kubernetes/client-node';
 
 const podListResponse: V1PodList = {
@@ -45,17 +45,35 @@ async function MockedListEmptyNamespacedPod(namespace: string, pretty?: string, 
 
 describe("Pod Test", () => {
 
-    test("Get Pod ", async () => {
-        coreApi.listNamespacedPod = jest.fn(MockedListNamespacedPod);
-        const result = await getPod("recorder-watcher");
-        expect(result?.metadata?.name).toEqual("recorder-watcher-88cd749884-jxc5q");
-        expect(result?.status?.phase).toEqual("Running");
-        expect(result?.spec?.containers && result?.spec?.containers[0].image).toEqual("test/recorder-watcher:acf3e8cbe");
-        coreApi.listNamespacedPod = jest.fn(MockedListEmptyNamespacedPod);
-        const result1 = await getPod("gg");
-        expect(result1).toBeUndefined();
+    describe("Get Pod Info", () => {
+        test("Get Pod Info Full", async () => {
+            coreApi.listNamespacedPod = jest.fn(MockedListNamespacedPod);
+            const result = await getPod("recorder-watcher");
+            expect(result?.metadata?.name).toEqual("recorder-watcher-88cd749884-jxc5q");
+            expect(result?.status?.phase).toEqual("Running");
+            expect(result?.spec?.containers && result?.spec?.containers[0].image).toEqual("test/recorder-watcher:acf3e8cbe");
+        })
+
+        test("Get Pod Info Empty", async () => {
+            coreApi.listNamespacedPod = jest.fn(MockedListEmptyNamespacedPod);
+            const result1 = await getPod("gg");
+            expect(result1).toBeUndefined();
+        })
+
+        test("Get Pod Status", async () => {
+            coreApi.listNamespacedPod = jest.fn(MockedListNamespacedPod);
+            const result = await getPodStatus("recorder-watcher");
+            expect(result).toBe("Running");
+        })
+
+        test("Get Pod Status Empty", async () => {
+            coreApi.listNamespacedPod = jest.fn(MockedListEmptyNamespacedPod);
+            const result = await getPodStatus("gg");
+            expect(result).toBeUndefined();
+        })
 
     })
+
 
     test("Get Pod Utilization Metric", async () => {
         coreApi.listNamespacedPod = jest.fn(MockedListNamespacedPod)
