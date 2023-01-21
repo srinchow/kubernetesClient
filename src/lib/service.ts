@@ -15,5 +15,13 @@ export const getServiceOfType = async (type: string, namespace = "default") => {
 
 export const getServiceLoadBalancer = async (serviceName: string, namespace = "default") => {
     const serviceInfo = await getService(serviceName, namespace);
-    return serviceInfo?.status?.loadBalancer?.ingress;
+    const ingresses = serviceInfo?.status?.loadBalancer?.ingress;
+    if (!ingresses) return;
+    const hostNames = [];
+    for (const ingress of ingresses) {
+        if (ingress.hostname) {
+            hostNames.push(ingress.hostname);
+        }
+    }
+    return hostNames
 }
