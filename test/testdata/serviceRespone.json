@@ -1,0 +1,47 @@
+{
+    "metadata": {
+        "labels": {
+            "name": "api-server"
+        },
+        "name": "api-server",
+        "namespace": "default",
+        "resourceVersion": "426130252",
+        "uid": "03c71c6e-5c20-4b50-a661-964bc6dc27ce"
+    },
+    "spec": {
+        "allocateLoadBalancerNodePorts": true,
+        "clusterIP": "0.0.0.0",
+        "clusterIPs": [
+            "0.0.0.0"
+        ],
+        "externalTrafficPolicy": "Cluster",
+        "internalTrafficPolicy": "Cluster",
+        "ipFamilies": [
+            "IPv4"
+        ],
+        "ipFamilyPolicy": "SingleStack",
+        "ports": [
+            {
+                "name": "http",
+                "nodePort": 1,
+                "port": 1,
+                "protocol": "TCP",
+                "targetPort": 1
+            }
+        ],
+        "selector": {
+            "app": "api-server"
+        },
+        "sessionAffinity": "None",
+        "type": "LoadBalancer"
+    },
+    "status": {
+        "loadBalancer": {
+            "ingress": [
+                {
+                    "hostname": "abc.def.com"
+                }
+            ]
+        }
+    }
+}
