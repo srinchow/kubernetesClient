@@ -79,7 +79,7 @@ describe("Service Test", () => {
             coreApi.listNamespacedService = jest.fn(MockedListNamespacedService);
             const result = await getServiceOfType("abc");
             expect(result).toBeUndefined();
-        })
+        });
 
     });
 })
