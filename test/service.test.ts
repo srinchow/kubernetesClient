@@ -6,7 +6,7 @@ import { Socket } from 'net';
 
 import data from "./testdata/serviceRespone.json";
 
-import { getService, getServiceOfType } from '../src/lib/service';
+import { getService, getServiceLoadBalancer, getServiceOfType } from '../src/lib/service';
 import { coreApi } from '../src/client/client';
 
 
@@ -80,6 +80,23 @@ describe("Service Test", () => {
             const result = await getServiceOfType("abc");
             expect(result).toBeUndefined();
         });
+
+        test("Get lb of the service ", async () => {
+            coreApi.listNamespacedService = jest.fn(MockedListNamespacedService);
+            let result = await getServiceLoadBalancer("api-server");
+            if (!result) {
+                result = [];
+            }
+            expect(result?.length).toEqual(1);
+            expect(result[0]).toEqual("abc.def.com");
+        });
+
+
+        test("Get lb of service empty", async () => {
+            coreApi.listNamespacedService = jest.fn(MockedEmptyListNamespacedService);
+            const result = await getServiceLoadBalancer("api-server");
+            expect(result).toBeUndefined();
+        })
 
     });
 })
