@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { cpuResourceUnitConversion, memoryResourceUnitConversion } from "../common/constant"
 
 export type ResourceUtilization = { name: string, cpuUtilizationOverLimit?: number, memoryUtilizationOverLimit?: number };
