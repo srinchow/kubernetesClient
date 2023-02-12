@@ -18,14 +18,15 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowJs": true,
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
     // enable this when it works with tslint, or we switch to prettier
-    // "declarationMap": true
+    "declarationMap": true  
   },
   "exclude": [
     "node_modules",
     "src/*_test.ts",
-    "dist"
+    "dist",
+    "jest.*"
   ],
   "include": [
     "*.ts",

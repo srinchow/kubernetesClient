@@ -1,5 +1,5 @@
 import { coreApi } from "../client/client";
-import { ResourceUtilization, convertUnit } from "../utils/containerResource";
+import { ResourceUtilization, convertUnit } from "../utils/resource";
 
 // get single pod
 export const getPod = async (podName: string, namespace = "default") => {
