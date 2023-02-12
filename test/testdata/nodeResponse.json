@@ -15,7 +15,7 @@
         "annotations": {
             "node.alpha.kubernetes.io/ttl": "0",
             "volumes.kubernetes.io/controller-managed-attach-detach": "true"
-        },
+        }
     },
     "status": {
         "capacity": {
@@ -47,15 +47,15 @@
             },
             {
                 "type": "Hostname",
-                "address": "ip-10-0-21-230.ec2.internal",
+                "address": "ip-10-0-21-230.ec2.internal"
             },
             {
                 "type": "InternalDNS",
-                "address": "ip-10-0-21-230.ec2.internal",
+                "address": "ip-10-0-21-230.ec2.internal"
             },
             {
                 "type": "ExternalDNS",
-                "address": "ec2-54-159-126-158.compute-1.amazonaws.com",
+                "address": "ec2-54-159-126-158.compute-1.amazonaws.com"
             }
         ]
     }
