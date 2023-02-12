@@ -38,7 +38,7 @@ export const enum PodFailedStatus {
 
 
 
-export const cpuResourceUnitConversion = new Map<string, number>([["m", 1000]]);
+export const cpuResourceUnitConversion = new Map<string, number>([["m", 0.001]]);
 
 const memoryResourceUnitConversionInternal = () => {
     const decimalUnits: string[] = ['k', 'M', 'G', 'T', 'P', 'E'];
@@ -47,7 +47,7 @@ const memoryResourceUnitConversionInternal = () => {
     const decimalBase = 1000;
     const base2 = 1024;
 
-    const unitConversion: Map<string, number> = new Map<string, number>();
+    const unitConversion: Map<string, number> = new Map<string, number>([["m", 0.001]]);
 
     decimalUnits.forEach((val, index) => {
         unitConversion.set(val, Math.pow(decimalBase, index + 1));
