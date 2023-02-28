@@ -3,7 +3,6 @@
         "name": "ip-10-0-21-230.ec2.internal",
         "uid": "123-456",
         "resourceVersion": "1",
-        "creationTimestamp": "2023-02-10T11:26:16Z",
         "labels": {
             "beta.kubernetes.io/arch": "amd64",
             "beta.kubernetes.io/instance-type": "c6a.xlarge",

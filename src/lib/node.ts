@@ -2,7 +2,7 @@ import { V1Node } from "@kubernetes/client-node";
 import { coreApi } from "../client/client";
 import { convertUnit } from "../utils/resource";
 
-export const getNodes = async (nodeName: string) => {
+export const getNode = async (nodeName: string) => {
     const node = await coreApi.listNode(undefined, false, undefined, `metadata.name=${nodeName}`);
     return node.body.items;
 }
