@@ -7,7 +7,7 @@ export const getNode = async (nodeName: string) => {
     return node.body.items;
 }
 
-export const getNodesWithCpuCapcity = async (cpuCapacity: string) => {
+export const getNodesWithCpuCapacity = async (cpuCapacity: string) => {
     const nodeResponse = await coreApi.listNode();
 
     return nodeResponse.body.items.filter((node) => {
@@ -17,7 +17,7 @@ export const getNodesWithCpuCapcity = async (cpuCapacity: string) => {
 }
 
 
-export const getNodesWithMemoryCapcity = async (memoryCapcity: string) => {
+export const getNodesWithMemoryCapacity = async (memoryCapcity: string) => {
     const nodesResponse = await coreApi.listNode();
 
     return nodesResponse.body.items.filter((node) => {
@@ -26,7 +26,7 @@ export const getNodesWithMemoryCapcity = async (memoryCapcity: string) => {
     });
 }
 
-export const getNodesWithResouceCapacity = async (memoryCapacity: string, cpuCapacity: string) => {
+export const getNodesWithResourceCapacity = async (memoryCapacity: string, cpuCapacity: string) => {
     const nodeResponse = await coreApi.listNode();
 
     return nodeResponse.body.items.filter((node) => {
