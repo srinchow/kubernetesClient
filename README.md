@@ -14,11 +14,12 @@ Minimalist Kubernetes framework for [Node.js](http://nodejs.org).
 Examples:
 
 ```js
-const { getPod } = require("simple-kubernetes-client");
-getPod("abc", "default").then((data) => {
-  console.log(data);
-}).catch((err) => {
-});
+const { pod } = require("simple-kubernetes-client");
+
+const doSomething = async ()=> {
+    const helloWorldPod = await pod.getPod("hello-world");
+    console.log(helloWorldPod)
+}
 ```
 
 Test : <br> Coverage is still not 100% will add more unit test, yet to write
