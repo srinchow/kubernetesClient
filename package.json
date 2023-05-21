@@ -8,7 +8,8 @@
     "test": "jest",
     "coverage": "jest --coverage",
     "lint": "eslint . --ext .ts",
-    "build": "tsc"
+    "build": "tsc",
+    "prepublish": "tsc"
   },
   "repository": {
     "type": "git",

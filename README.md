@@ -32,4 +32,3 @@ Future addition:
 
 1. Cursor addition to fetch data via scroll
 2. More Functions
-3. adding
