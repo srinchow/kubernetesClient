@@ -63,13 +63,15 @@ describe("Pod Test", () => {
         test("Get Pod Status", async () => {
             coreApi.listNamespacedPod = jest.fn(MockedListNamespacedPod);
             const result = await getPodStatus("recorder-watcher");
-            expect(result).toBe("Running");
+            expect(result?.phase).toBe("Running");
+            expect(result?.reason).toBeUndefined();
         })
 
         test("Get Pod Status Empty", async () => {
             coreApi.listNamespacedPod = jest.fn(MockedListEmptyNamespacedPod);
             const result = await getPodStatus("gg");
-            expect(result).toBeUndefined();
+            expect(result?.phase).toBeUndefined();
+            expect(result?.reason).toBeUndefined();
         })
 
     })

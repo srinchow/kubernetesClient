@@ -1,5 +1,8 @@
 import { coreApi } from "../client/client";
+import { PodLifeCycleStage } from "../common/constant";
 import { ResourceUtilization, convertUnit } from "../utils/resource";
+
+type PodStatusInfo = { phase: string | undefined, reason: string | undefined };
 
 // get single pod
 export const getPod = async (podName: string, namespace = "default") => {
@@ -7,19 +10,19 @@ export const getPod = async (podName: string, namespace = "default") => {
     if (body.items.length !== 0) return body.items[0];
 }
 
-export const getPodStatus = async (podName: string, namespace = "default") => {
+export const getPodStatus = async (podName: string, namespace = "default"): Promise<PodStatusInfo> => {
     const podInfo = await getPod(podName, namespace);
-    return podInfo?.status?.phase;
+    return { phase: podInfo?.status?.phase, reason: podInfo?.status?.reason };
 }
 
 
-export const getPodsToStatusMapping = async (appName: string, namespace = "default") => {
+export const getPodsToStatusMapping = async (appName: string, filterStatus: PodLifeCycleStage, namespace = "default") => {
     const pods = await getAllPodsForDeployment(appName, namespace);
     if (!pods) return;
-    const podStatuses: Map<string, string> = new Map<string, string>();
+    const podStatuses: Map<string, PodStatusInfo> = new Map<string, PodStatusInfo>();
     for (const pod of pods) {
         if (pod.metadata?.name && pod.status?.phase) {
-            podStatuses.set(pod.metadata?.name, pod.status?.phase);
+            podStatuses.set(pod.metadata?.name, { phase: pod.status?.phase, reason: pod.status?.reason });
         }
     }
     return podStatuses;
