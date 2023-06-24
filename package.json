@@ -1,6 +1,6 @@
 {
   "name": "simple-kubernetes-client",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A simple kubernetes client",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
