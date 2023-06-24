@@ -16,13 +16,14 @@ export const getPodStatus = async (podName: string, namespace = "default"): Prom
 }
 
 
-export const getPodsToStatusMapping = async (appName: string, filterStatus: PodLifeCycleStage, namespace = "default") => {
+export const getPodsToStatusMapping = async (appName: string, filterStatuses: PodLifeCycleStage[], namespace = "default") => {
     const pods = await getAllPodsForDeployment(appName, namespace);
+    const statusStr = filterStatuses.map(f => f.toString());
     if (!pods) return;
     const podStatuses: Map<string, PodStatusInfo> = new Map<string, PodStatusInfo>();
     for (const pod of pods) {
-        if (pod.metadata?.name && pod.status?.phase) {
-            podStatuses.set(pod.metadata?.name, { phase: pod.status?.phase, reason: pod.status?.reason });
+        if (pod.metadata?.name && pod.status?.phase && statusStr.includes(pod?.status?.phase)) {
+            podStatuses.set(pod.metadata.name, { phase: pod.status?.phase, reason: pod.status?.reason });
         }
     }
     return podStatuses;
